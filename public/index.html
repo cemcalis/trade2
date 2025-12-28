@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Doğrulanmış kullanıcılar için canlı piyasa, broker ve admin özellikli trading platformu">
+  <title>Pro Broker Platformu</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <header class="hero">
+    <div class="hero__content">
+      <p class="eyebrow">Gerçek zamanlı piyasa • Token korumalı</p>
+      <h1>Admin kontrollü, broker destekli<br><span class="accent">kurumsal alım-satım paneli</span></h1>
+      <p class="lead">200+ kripto, BIST ve yabancı hisseler, emtia ve FX verilerini gerçek API'lerden çeken, TC kimlik doğrulamalı profesyonel platform.</p>
+      <div class="actions">
+        <button id="open-login" class="btn primary">Giriş</button>
+        <button id="open-register" class="btn ghost">Hızlı Kayıt</button>
+      </div>
+    </div>
+    <div class="glass card" id="status-card">
+      <h3>Durum</h3>
+      <div id="status-text">Bağlanmadı</div>
+      <small>Token'ınızı kullanarak bağlanın.</small>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel-grid">
+      <article class="glass card">
+        <h2>Kimlikli Kayıt</h2>
+        <form id="register-form" class="stack">
+          <div class="grid-2">
+            <label>Ad
+              <input name="first_name" required>
+            </label>
+            <label>Soyad
+              <input name="last_name" required>
+            </label>
+          </div>
+          <label>E-posta
+            <input name="email" type="email" required>
+          </label>
+          <label>TC Kimlik No
+            <input name="tc_no" pattern="\\d{11}" required>
+          </label>
+          <label>Şifre
+            <input name="password" type="password" required>
+          </label>
+          <button class="btn primary" type="submit">Kayıt Ol</button>
+        </form>
+      </article>
+
+      <article class="glass card">
+        <h2>Giriş</h2>
+        <form id="login-form" class="stack">
+          <label>TC Kimlik No
+            <input name="tc_no" pattern="\\d{11}" required>
+          </label>
+          <label>Şifre
+            <input name="password" type="password" required>
+          </label>
+          <button class="btn primary" type="submit">Giriş Yap</button>
+        </form>
+      </article>
+
+      <article class="glass card">
+        <h2>Kimlik Onayı</h2>
+        <form id="id-form" class="stack" enctype="multipart/form-data">
+          <label>Ön Yüz
+            <input name="front" type="file" accept="image/*" required>
+          </label>
+          <label>Arka Yüz
+            <input name="back" type="file" accept="image/*" required>
+          </label>
+          <button class="btn primary" type="submit">Yükle</button>
+        </form>
+      </article>
+
+      <article class="glass card">
+        <h2>Piyasa Akışı</h2>
+        <div class="tab-row">
+          <button data-bucket="crypto" class="tab active">Kripto</button>
+          <button data-bucket="tr_equities" class="tab">BIST</button>
+          <button data-bucket="forex" class="tab">Forex</button>
+          <button data-bucket="commodities" class="tab">Emtia</button>
+          <button data-bucket="intl_equities" class="tab">Yabancı Hisse</button>
+        </div>
+        <div id="quotes" class="quotes"></div>
+      </article>
+
+      <article class="glass card">
+        <h2>İşlem</h2>
+        <form id="trade-form" class="stack">
+          <label>Market
+            <select name="bucket">
+              <option value="crypto">Kripto</option>
+              <option value="tr_equities">BIST</option>
+              <option value="forex">Forex</option>
+              <option value="commodities">Emtia</option>
+              <option value="intl_equities">Yabancı Hisse</option>
+            </select>
+          </label>
+          <label>Sembol
+            <input name="symbol" placeholder="BTC/USD" required>
+          </label>
+          <label>Yön
+            <select name="side"><option value="buy">Al</option><option value="sell">Sat</option></select>
+          </label>
+          <label>Miktar
+            <input name="quantity" type="number" step="0.0001" required>
+          </label>
+          <label>Fiyat
+            <input name="price" type="number" step="0.0001" required>
+          </label>
+          <button class="btn primary" type="submit">Emir Gönder</button>
+        </form>
+      </article>
+
+      <article class="glass card">
+        <h2>Cüzdan ve Portföy</h2>
+        <div class="portfolio">
+          <div>
+            <p class="label">Bakiyem</p>
+            <p class="value" id="balance">0</p>
+          </div>
+          <div>
+            <p class="label">Doğrulama</p>
+            <p class="value" id="verified">-</p>
+          </div>
+        </div>
+        <form id="cash-form" class="stack">
+          <div class="grid-2">
+            <label>Tutar
+              <input name="amount" type="number" step="0.01" required>
+            </label>
+            <label>Tür
+              <select name="type">
+                <option value="deposit">Yatır</option>
+                <option value="withdrawal">Çek</option>
+              </select>
+            </label>
+          </div>
+          <button class="btn primary" type="submit">Talep Gönder</button>
+        </form>
+      </article>
+
+      <article class="glass card news">
+        <div class="news__header">
+          <h2>Ekonomi Haberleri</h2>
+          <button id="refresh-news" class="btn ghost">Yenile</button>
+        </div>
+        <div id="news-list" class="news__list"></div>
+      </article>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
